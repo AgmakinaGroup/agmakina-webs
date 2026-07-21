@@ -12,7 +12,7 @@
   var f=document.getElementById('leadForm'); if(!f) return;
   f.addEventListener('submit',function(e){e.preventDefault();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
-    var t='Hola Agmakina, quiero una sesion de inversion en Bali.%0ANombre: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0ATelefono: '+encodeURIComponent(g('telefono'))+'%0A'+encodeURIComponent(g('msg'));
+    var t='Hi Agmakina, I would like a call about investing in Bali.%0AName: '+encodeURIComponent(g('nombre'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
     window.open('https://wa.me/6282342834766?text='+t,'_blank');
   });
 })();
