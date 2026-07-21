@@ -274,3 +274,10 @@
 .lform2 .btn{margin-top:6px;width:100%}
 .f2-note{font-family:var(--mono);font-size:11px;color:var(--mut2);text-align:center;letter-spacing:.03em}
 @media(max-width:900px){.f2{grid-template-columns:1fr}}
+/* ==== full-bleed image bands (second half) ==== */
+.imgband{min-height:72vh;background-size:cover;background-position:center;background-attachment:fixed;display:flex;align-items:flex-end;color:#fff}
+@media(max-width:820px){.imgband{background-attachment:scroll;min-height:60vh}}
+.imgband .wrap{padding:clamp(3rem,7vw,6.5rem) 28px}
+.imgband .ey{color:#f0d9b8;display:block;margin-bottom:14px}
+.imgband h2{font-size:clamp(32px,5.5vw,64px);max-width:18ch;color:#fff;line-height:1}
+.imgband p{color:rgba(255,255,255,.9);max-width:48ch;margin-top:16px;font-size:16px;line-height:1.6}
