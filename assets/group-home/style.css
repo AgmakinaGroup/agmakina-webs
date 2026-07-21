@@ -215,7 +215,7 @@
     radial-gradient(820px 560px at 93% 6%, rgba(240,134,58,.11), transparent 52%),
     radial-gradient(760px 620px at 50% 106%, rgba(232,114,42,.09), transparent 60%),
     var(--ink) !important;
-    background-attachment:fixed}
+    }
   /* ===== QUIZ FORM (home, seccion #reservar) ===== */
   .tlpq .qwrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;padding:26px 30px 30px}
   .tlpq .qtop{display:flex;align-items:center;justify-content:space-between;gap:16px}
