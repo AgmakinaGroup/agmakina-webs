@@ -20,7 +20,7 @@
 
 
   (function(){
-    var f=new Intl.NumberFormat('es-ES');
+    var f=new Intl.NumberFormat('en-US');
     var cap=document.getElementById('cap');
     var el=function(i){return document.getElementById(i)};
     var BALI=.10;
