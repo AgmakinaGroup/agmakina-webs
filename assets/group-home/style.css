@@ -281,3 +281,14 @@
 .imgband .ey{color:#f0d9b8;display:block;margin-bottom:14px}
 .imgband h2{font-size:clamp(32px,5.5vw,64px);max-width:18ch;color:#fff;line-height:1}
 .imgband p{color:rgba(255,255,255,.9);max-width:48ch;margin-top:16px;font-size:16px;line-height:1.6}
+
+/* ===== MOBILE UX FIXES (jul 2026) ===== */
+@media(max-width:760px){
+  header{position:static}          /* header no sticky en móvil */
+  .sticky{display:none !important} /* fuera el botón sticky de abajo (sobraba con el del hero) */
+}
+@media(max-width:560px){
+  .topbar{font-size:11px;gap:6px;padding:8px 10px;flex-wrap:nowrap;white-space:nowrap}
+  .topbar .ab{gap:5px}
+  .topbar .dot{margin:0}
+}
