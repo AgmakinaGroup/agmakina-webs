@@ -22,22 +22,22 @@
     +'<button class="btn" type="submit">Book a call on WhatsApp &rarr;</button>'
     +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
     +'</form>';
-  function landingInfo(){var p=location.pathname;
-    if(/property-management/.test(p))return{t:"PROPERTY MANAGEMENT",i:"getting their villa managed"};
-    if(/developments/.test(p))return{t:"DEVELOPMENTS",i:"investing in a Bali villa"};
-    if(/tika/.test(p))return{t:"TIKA VILLAS",i:"investing in Tika Villas"};
-    if(/about/.test(p))return{t:"ABOUT",i:"working with Agmakina"};
-    if(/stays/.test(p))return{t:"STAYS",i:"booking a stay in Bali"};
-    return{t:"HOME",i:"investing in a Bali villa"};}
+  function landingFrom(){var p=location.pathname;
+    if(/property-management/.test(p))return"Property Management";
+    if(/developments/.test(p))return"Developments";
+    if(/tika/.test(p))return"Tika Villas";
+    if(/about/.test(p))return"About";
+    if(/stays/.test(p))return"Stays";
+    return"Home";}
   var f=document.getElementById("leadForm");
   if(f) f.addEventListener("submit",function(e){
     e.preventDefault();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
-    var li=landingInfo();
-    /* email notification to info@agmakinagroup.com via FormSubmit (async) */
-    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),Landing:li.t,Enquiry:li.i,_subject:"New enquiry — "+li.t+" · Agmakina",_template:"table",_captcha:"false"})}).catch(function(){});
+    var L=landingFrom();
+    /* email notification to info@agmakinagroup.com via FormSubmit (async). Just states the source landing. */
+    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).catch(function(){});
     /* WhatsApp handoff (kept, opens in user gesture) */
-    var t='Hi Agmakina, I am interested in '+encodeURIComponent(li.i)+'.%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
+    var t='Hi Agmakina, I just filled the form on your website ('+encodeURIComponent(L)+' page).%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
     window.open('https://wa.me/'+WA+'?text='+t,'_blank');
   });
 })();
