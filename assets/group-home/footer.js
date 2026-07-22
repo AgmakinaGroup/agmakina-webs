@@ -27,7 +27,7 @@
     +'<label>Name<input name="nombre" required placeholder="Full name"></label>'
     +'<label>Email<input name="email" type="email" required placeholder="you@email.com"></label>'
     +'<label>WhatsApp<input name="telefono" type="tel" required placeholder="+34 600 000 000"></label>'
-    +'<button class="btn" type="submit">Book a call on WhatsApp &rarr;</button>'
+    +'<button class="btn" type="submit">Book my free session &rarr;</button>'
     +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
     +'</form>';
   function landingFrom(){var p=location.pathname;
@@ -42,11 +42,11 @@
     e.preventDefault();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
     var L=landingFrom();
+    var btn=f.querySelector('button[type="submit"]');
+    if(btn){btn.disabled=true;btn.innerHTML='Sending&hellip;';}
+    var done=function(){f.innerHTML='<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Thank you. Your request has been sent.</h3><p>An advisor will be in touch within 24 hours.</p></div>';};
     /* email notification to info@agmakinagroup.com via FormSubmit (async). Just states the source landing. */
-    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).catch(function(){});
-    /* WhatsApp handoff (kept, opens in user gesture) */
-    var t='Hi Agmakina, I just filled the form on your website ('+encodeURIComponent(L)+' page).%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
-    window.open('https://wa.me/'+WA+'?text='+t,'_blank');
+    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).then(function(r){return r.json();}).then(done).catch(done);
   });
 })();
 /* Responsive UX fixes — injected globally: widows, one-line stat header, mobile topbar/header/buttons. */
@@ -59,6 +59,10 @@
     +".badges .bd:nth-child(4),.badges .bd:nth-child(5){display:none}"
     /* closing: hide phone/email + inline social; social moves to the bottom copyright bar */
     +".f2-lines{display:none !important}.sv-final .agmk-social{display:none !important}"
+    /* closing copy + note: always left-aligned (bare h2 was inheriting center) */
+    +".f2-copy,.f2-copy .ey,.f2-copy h2,.f2-copy p,.f2-note{text-align:left !important}"
+    /* email-sent confirmation (replaces the form after submit) */
+    +".f2-sent{text-align:left;padding:6px 0}.f2-sent-ic{width:46px;height:46px;border-radius:50%;background:rgba(61,220,132,.14);color:#3ddc84;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:16px}.f2-sent h3{font-size:21px;margin:0 0 8px;color:#fff}.f2-sent p{color:var(--mut);margin:0;font-size:15px;line-height:1.5}"
     +"footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}footer .legal{margin:0;flex:1 1 380px}"
     +".agmk-foot-social{display:flex;gap:14px;flex:0 0 auto}.agmk-foot-social a{color:#fff;opacity:.5;transition:.2s;display:inline-flex}.agmk-foot-social a:hover{opacity:1;color:#E8722A}.agmk-foot-social svg{display:block}"
     /* Stays closing search form: style select + date picker */
