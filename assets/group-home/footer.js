@@ -47,6 +47,8 @@
   var st=document.createElement("style");
   st.id="agmk-mobile-css";
   st.textContent=""
+    /* home: drop the two badges (Occupancy / Villas managed) already shown in the stats row above */
+    +".badges .bd:nth-child(4),.badges .bd:nth-child(5){display:none}"
     /* social links row in the shared closing block */
     +".agmk-social{display:flex;gap:16px;margin-top:24px;align-items:center}.agmk-social a{color:#fff;opacity:.55;transition:opacity .2s,color .2s;display:inline-flex}.agmk-social a:hover{opacity:1;color:#E8722A}.agmk-social svg{display:block}"
     /* widows: never leave a single word alone on the last line */
