@@ -23,7 +23,7 @@
     +'<h2>Start your Bali investment with confidence.</h2>'
     +'<p>We match you with the right investment, built for long-term value and performance. Leave your details and an advisor will be in touch personally.</p>'
     +'</div>'
-    +'<form class="lform2 reveal in" id="leadForm">'
+    +'<form class="lform2 reveal in" id="agmkLeadForm">'
     +'<label>Name<input name="nombre" required placeholder="Full name"></label>'
     +'<label>Email<input name="email" type="email" required placeholder="you@email.com"></label>'
     +'<label>WhatsApp<input name="telefono" type="tel" required placeholder="+34 600 000 000"></label>'
@@ -37,9 +37,9 @@
     if(/about/.test(p))return"About";
     if(/stays/.test(p))return"Stays";
     return"Home";}
-  var f=document.getElementById("leadForm");
+  var f=document.getElementById("agmkLeadForm");
   if(f) f.addEventListener("submit",function(e){
-    e.preventDefault();
+    e.preventDefault();e.stopImmediatePropagation();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
     var L=landingFrom();
     var btn=f.querySelector('button[type="submit"]');
