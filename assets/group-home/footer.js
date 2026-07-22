@@ -22,11 +22,22 @@
     +'<button class="btn" type="submit">Book a call on WhatsApp &rarr;</button>'
     +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
     +'</form>';
+  function landingInfo(){var p=location.pathname;
+    if(/property-management/.test(p))return{t:"PROPERTY MANAGEMENT",i:"getting their villa managed"};
+    if(/developments/.test(p))return{t:"DEVELOPMENTS",i:"investing in a Bali villa"};
+    if(/tika/.test(p))return{t:"TIKA VILLAS",i:"investing in Tika Villas"};
+    if(/about/.test(p))return{t:"ABOUT",i:"working with Agmakina"};
+    if(/stays/.test(p))return{t:"STAYS",i:"booking a stay in Bali"};
+    return{t:"HOME",i:"investing in a Bali villa"};}
   var f=document.getElementById("leadForm");
   if(f) f.addEventListener("submit",function(e){
     e.preventDefault();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
-    var t='Hi Agmakina, I would like a call about investing in Bali.%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
+    var li=landingInfo();
+    /* email notification to info@agmakinagroup.com via FormSubmit (async) */
+    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),Landing:li.t,Enquiry:li.i,_subject:"New enquiry — "+li.t+" · Agmakina",_template:"table",_captcha:"false"})}).catch(function(){});
+    /* WhatsApp handoff (kept, opens in user gesture) */
+    var t='Hi Agmakina, I am interested in '+encodeURIComponent(li.i)+'.%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
     window.open('https://wa.me/'+WA+'?text='+t,'_blank');
   });
 })();
