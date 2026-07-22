@@ -26,12 +26,21 @@
     window.open('https://wa.me/'+WA+'?text='+t,'_blank');
   });
 })();
-/* Mobile UX fixes — injected globally (non-sticky header, no sticky CTA, one-line topbar). */
+/* Responsive UX fixes — injected globally: widows, one-line stat header, mobile topbar/header/buttons. */
 (function(){
   if(document.getElementById("agmk-mobile-css")) return;
   var st=document.createElement("style");
   st.id="agmk-mobile-css";
-  st.textContent="@media(max-width:860px){header .btn.sm{margin-left:auto !important}}@media(max-width:760px){header{position:static !important}.sticky{display:none !important}}@media(max-width:560px){.topbar{font-size:11px !important;gap:6px !important;padding:8px 10px !important;flex-wrap:nowrap !important;white-space:nowrap !important}.topbar .ab{gap:5px !important}.topbar .dot{margin:0 !important}.dh-nums{white-space:nowrap !important;font-size:2.4vw !important}.dh-nums span{margin:0 3px !important}}";
+  st.textContent=""
+    /* widows: never leave a single word alone on the last line */
+    +"h1,h2{text-wrap:balance}.dh-in>p,.sub,.lead,.notcall p,.dh-in h1+p{text-wrap:pretty}"
+    /* desktop & tablet: header stat line always on ONE line */
+    +"@media(min-width:761px){.dh-nums{max-width:none !important;white-space:nowrap !important}}"
+    /* mobile: flush-right header CTA, non-sticky header, no sticky bottom CTA */
+    +"@media(max-width:860px){header .btn.sm{margin-left:auto !important}}"
+    +"@media(max-width:760px){header{position:static !important}.sticky{display:none !important}}"
+    /* mobile: topbar + stat line fit one tidy line, text intact */
+    +"@media(max-width:760px){.topbar{font-size:clamp(8px,2.6vw,11px) !important;gap:6px !important;padding:8px 10px !important;flex-wrap:nowrap !important;white-space:nowrap !important;overflow:hidden !important}.topbar .ab{gap:5px !important}.topbar .dot{margin:0 !important}.dh-nums{white-space:nowrap !important;font-size:2.3vw !important;max-width:none !important}.dh-nums span{margin:0 3px !important}}";
   document.head.appendChild(st);
 })();
 /* Floating WhatsApp button — appears on every page (global). */
