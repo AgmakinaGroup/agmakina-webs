@@ -31,7 +31,7 @@
   if(document.getElementById("agmk-mobile-css")) return;
   var st=document.createElement("style");
   st.id="agmk-mobile-css";
-  st.textContent="@media(max-width:760px){header{position:static !important}.sticky{display:none !important}}@media(max-width:560px){.topbar{font-size:11px !important;gap:6px !important;padding:8px 10px !important;flex-wrap:nowrap !important;white-space:nowrap !important}.topbar .ab{gap:5px !important}.topbar .dot{margin:0 !important}}";
+  st.textContent="@media(max-width:760px){header{position:static !important}.sticky{display:none !important}}@media(max-width:560px){.topbar{font-size:11px !important;gap:6px !important;padding:8px 10px !important;flex-wrap:nowrap !important;white-space:nowrap !important}.topbar .ab{gap:5px !important}.topbar .dot{margin:0 !important}.dh-nums{white-space:nowrap !important;font-size:2.4vw !important}.dh-nums span{margin:0 3px !important}}";
   document.head.appendChild(st);
 })();
 /* Floating WhatsApp button — appears on every page (global). */
