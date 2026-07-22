@@ -3,6 +3,8 @@
    Mount point on each page: <section class="final2" id="reservar"><div class="wrap f2" id="agmk-final"></div></section> */
 (function(){
   var WA="6282342834766";
+  var SOC=[
+    ["Instagram","https://www.instagram.com/agmakinagroup/",'<path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.27.06-1.65.07-4.9.07s-3.63 0-4.9-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.17-.42-.37-1.06-.42-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.14 0-3.5 0-4.74.07-.9.04-1.38.19-1.7.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.8-.32 1.7C3.6 8.5 3.6 8.86 3.6 12s0 3.5.07 4.74c.04.9.19 1.38.32 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.8.28 1.7.32 1.24.06 1.6.07 4.74.07s3.5 0 4.74-.07c.9-.04 1.38-.19 1.7-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.8.32-1.7.06-1.24.07-1.6.07-4.74s0-3.5-.07-4.74c-.04-.9-.19-1.38-.32-1.7-.17-.43-.37-.74-.69-1.06-.32-.32-.63-.52-1.06-.69-.32-.13-.8-.28-1.7-.32C15.5 4 15.14 4 12 4zm0 3.06A4.94 4.94 0 1 1 7.06 12 4.94 4.94 0 0 1 12 7.06zm0 8.14A3.2 3.2 0 1 0 8.8 12 3.2 3.2 0 0 0 12 15.2zm6.3-8.34a1.15 1.15 0 1 1-1.15-1.15 1.15 1.15 0 0 1 1.15 1.15z"/>'], ["LinkedIn","https://www.linkedin.com/company/agmakinagroup/",'<path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>'], ["Facebook","https://www.facebook.com/agmakinagroup/",'<path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/>'], ["TikTok","https://www.tiktok.com/@agmakinagroup",'<path d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.3v13.4a2.6 2.6 0 1 1-2.6-2.6c.27 0 .53.04.78.12v-3.37a5.95 5.95 0 0 0-.78-.05A5.98 5.98 0 1 0 15.63 14V8.14a7.55 7.55 0 0 0 4.37 1.4V6.24a4.28 4.28 0 0 1-3.4-.42z"/>'], ["YouTube","https://www.youtube.com/@AgmakinaGroup",'<path d="M23.5 6.2a3 3 0 0 0-2.1-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.4.52A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.13c1.9.52 9.4.52 9.4.52s7.5 0 9.4-.52a3 3 0 0 0 2.1-2.13A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/>'] ]; var SOCIAL='<div class="agmk-social">'+SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">'+s[2]+'</svg></a>';}).join('')+'</div>';
   var m=document.getElementById("agmk-final");
   if(!m) return;
   m.innerHTML=''
@@ -11,9 +13,11 @@
     +'<h2>Start your Bali investment with confidence.</h2>'
     +'<p>We match you with the right investment, built for long-term value and performance. Leave your details and an advisor will be in touch personally.</p>'
     +'<div class="f2-lines"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener">+62 823-4283-4766</a><a href="mailto:info@agmakinagroup.com">info@agmakinagroup.com</a></div>'
+    +SOCIAL
     +'</div>'
     +'<form class="lform2 reveal in" id="leadForm">'
     +'<label>Name<input name="nombre" required placeholder="Full name"></label>'
+    +'<label>Email<input name="email" type="email" required placeholder="you@email.com"></label>'
     +'<label>WhatsApp<input name="telefono" type="tel" required placeholder="+34 600 000 000"></label>'
     +'<button class="btn" type="submit">Book a call on WhatsApp &rarr;</button>'
     +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
@@ -22,7 +26,7 @@
   if(f) f.addEventListener("submit",function(e){
     e.preventDefault();
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
-    var t='Hi Agmakina, I would like a call about investing in Bali.%0AName: '+encodeURIComponent(g('nombre'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
+    var t='Hi Agmakina, I would like a call about investing in Bali.%0AName: '+encodeURIComponent(g('nombre'))+'%0AEmail: '+encodeURIComponent(g('email'))+'%0AWhatsApp: '+encodeURIComponent(g('telefono'));
     window.open('https://wa.me/'+WA+'?text='+t,'_blank');
   });
 })();
@@ -32,6 +36,8 @@
   var st=document.createElement("style");
   st.id="agmk-mobile-css";
   st.textContent=""
+    /* social links row in the shared closing block */
+    +".agmk-social{display:flex;gap:16px;margin-top:24px;align-items:center}.agmk-social a{color:#fff;opacity:.55;transition:opacity .2s,color .2s;display:inline-flex}.agmk-social a:hover{opacity:1;color:#E8722A}.agmk-social svg{display:block}"
     /* widows: never leave a single word alone on the last line */
     +"h1,h2{text-wrap:balance}.dh-in>p,.sub,.lead,.notcall p,.dh-in h1+p{text-wrap:pretty}"
     /* desktop & tablet: header stat line always on ONE line */
