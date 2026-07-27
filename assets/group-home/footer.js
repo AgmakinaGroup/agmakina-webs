@@ -65,7 +65,7 @@
     +".f2-sent{text-align:left;padding:6px 0}.f2-sent-ic{width:46px;height:46px;border-radius:50%;background:rgba(61,220,132,.14);color:#3ddc84;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:16px}.f2-sent h3{font-size:21px;margin:0 0 8px;color:#fff}.f2-sent p{color:var(--mut);margin:0;font-size:15px;line-height:1.5}"
     +"footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}footer .legal{margin:0;flex:1 1 380px}"
     +".agmk-foot-social{display:flex;gap:14px;flex:0 0 auto}.agmk-foot-social a{color:#fff;opacity:.5;transition:.2s;display:inline-flex}.agmk-foot-social a:hover{opacity:1;color:#E8722A}.agmk-foot-social svg{display:block}"
-    +".agmk-foot-links{flex:0 0 auto}.agmk-foot-links a{color:#fff;opacity:.6;font-size:13px;letter-spacing:.02em;text-decoration:none;transition:.2s}.agmk-foot-links a:hover{opacity:1;color:#E8722A}"
+    +".agmk-foot-links{flex:0 0 auto;display:flex;gap:20px}.agmk-foot-links a{color:#fff;opacity:.6;font-size:13px;letter-spacing:.02em;text-decoration:none;transition:.2s}.agmk-foot-links a:hover{opacity:1;color:#E8722A}"
     /* Stays closing search form: style select + date picker */
     +".lformb select{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:#fff;font-size:15px;font-family:inherit}.lformb input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.6}"
     /* social links row in the shared closing block */
