@@ -109,3 +109,19 @@
   var ctas=document.querySelectorAll('a[href*="calendario"], .js-quiz');
   for(var c=0;c<ctas.length;c++){ ctas[c].addEventListener("click", openOverlay); }
 })();
+
+/* ===== Marquee builder (villas reales, jsDelivr) ===== */
+(function(){var row=document.getElementById("mqrow"); if(!row) return;
+var GH="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@main/assets/group-home/";
+var V=[["Kembali Villas","Balangan · Uluwatu","d61cfc9edc.jpg","78c38c4933.mp4"],
+["Santanyi Villas","Ungasan · Uluwatu","f81f575589.jpg","2a03fe27c8.mp4"],
+["Bingin Hills Villas","Uluwatu","2eea55e3d2.jpg","552dcb2bfb.mp4"],
+["Ribamar Villas","Bingin · Uluwatu","59bd5cdb93.jpg","3e4e56d8a3.mp4"],
+["Jepun Sari Hotel","Uluwatu","2d45bc8f41.jpg","f070867270.mp4"],
+["Moraira Villas","Bingin · Uluwatu","f34a322758.jpg","aed6ec5fe1.mp4"],
+["SDB Villas","Ungasan · Uluwatu","e8390cbc0e.jpg","68aa2f053c.mp4"],
+["Malvarrosa Villas","Bingin · Uluwatu","e55c1f185f.jpg","ab081eb5c7.mp4"],
+["Arrecife Villas","Ungasan · Uluwatu","f1cfc05390.jpg","d50e5f39c6.mp4"]];
+var h=""; for(var r=0;r<2;r++){for(var i=0;i<V.length;i++){var v=V[i];
+h+='<div class="tile"><span class="tg op">En alquiler</span><video autoplay muted loop playsinline preload="none" poster="'+GH+v[2]+'"><source src="'+GH+v[3]+'" type="video/mp4"></video><div class="cap">'+v[0]+'<small>'+v[1]+'</small></div></div>';}}
+row.innerHTML=h;})();
