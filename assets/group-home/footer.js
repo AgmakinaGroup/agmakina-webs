@@ -12,39 +12,29 @@
   /* Stays hero search -> real availability on the Cloudbeds group booking engine (all properties) */
   (function(){var sf=document.getElementById("searchForm");if(!sf||!/stays/.test(location.pathname))return;var nf=sf.cloneNode(true);sf.parentNode.replaceChild(nf,sf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var d=function(v){if(!v)return"";var p=v.split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:"";};window.open("https://agmakina.cloudbeds.com/#/?check_in="+d(f.ci.value)+"&check_out="+d(f.co.value)+"&page=1","_blank");});})();
   /* Stays closing: swap the basic Name/Email form for the same date+guests search (-> WhatsApp) */
-  (function(){var bf=document.getElementById("bookForm");if(!bf||!/stays/.test(location.pathname)||!bf.querySelector('[name="email"]'))return;var nf=document.createElement("form");nf.className=bf.className;nf.innerHTML='<label>Check-in<input type="date" name="ci" required></label><label>Check-out<input type="date" name="co" required></label><label>Guests<select name="g"><option>1 guest</option><option selected>2 guests</option><option>3 guests</option><option>4 guests</option><option>5+ guests</option></select></label><button class="btn" type="submit">Check availability on WhatsApp &rarr;</button><p class="note">Reply within 24h &middot; Best rate direct</p>';bf.replaceWith(nf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var t="Hi Agmakina, I would like to book a stay in Bali.%0ACheck-in: "+f.ci.value+"%0ACheck-out: "+f.co.value+"%0AGuests: "+encodeURIComponent(f.g.value);window.open("https://wa.me/"+WA+"?text="+t,"_blank");});})();
+  (function(){var bf=document.getElementById("bookForm");if(!bf||!/stays/.test(location.pathname)||!bf.querySelector('[name="email"]'))return;var es=location.pathname.indexOf("/es")===0;var nf=document.createElement("form");nf.className=bf.className;nf.innerHTML=es?'<label>Entrada<input type="date" name="ci" required></label><label>Salida<input type="date" name="co" required></label><label>Huéspedes<select name="g"><option>1 huésped</option><option selected>2 huéspedes</option><option>3 huéspedes</option><option>4 huéspedes</option><option>5+ huéspedes</option></select></label><button class="btn" type="submit">Ver disponibilidad por WhatsApp &rarr;</button><p class="note">Respuesta en 24h &middot; Mejor precio directo</p>':'<label>Check-in<input type="date" name="ci" required></label><label>Check-out<input type="date" name="co" required></label><label>Guests<select name="g"><option>1 guest</option><option selected>2 guests</option><option>3 guests</option><option>4 guests</option><option>5+ guests</option></select></label><button class="btn" type="submit">Check availability on WhatsApp &rarr;</button><p class="note">Reply within 24h &middot; Best rate direct</p>';bf.replaceWith(nf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var t=(es?"Hola Agmakina, quiero reservar una estancia en Bali.%0AEntrada: ":"Hi Agmakina, I would like to book a stay in Bali.%0ACheck-in: ")+f.ci.value+(es?"%0ASalida: ":"%0ACheck-out: ")+f.co.value+(es?"%0AHuéspedes: ":"%0AGuests: ")+encodeURIComponent(f.g.value);window.open("https://wa.me/"+WA+"?text="+t,"_blank");});})();
   /* open the native date picker when clicking anywhere in a date field (not just the icon) */
   (function(){[].forEach.call(document.querySelectorAll('input[type="date"]'),function(el){el.style.cursor="pointer";el.addEventListener("click",function(){try{this.showPicker();}catch(e){}});});})();
-  var m=document.getElementById("agmk-final");
-  if(!m) return;
-  m.innerHTML=''
-    +'<div class="f2-copy reveal in">'
-    +'<span class="ey">Free investment session</span>'
-    +'<h2>Start your Bali investment with confidence.</h2>'
-    +'<p>We match you with the right investment, built for long-term value and performance. Leave your details and an advisor will be in touch personally.</p>'
-    +'</div>'
-    +'<form class="lform2 reveal in" id="agmkLeadForm">'
-    +'<label>Name<input name="nombre" required placeholder="Full name"></label>'
-    +'<label>Email<input name="email" type="email" required placeholder="you@email.com"></label>'
-    +'<label>WhatsApp<input name="telefono" type="tel" required placeholder="+34 600 000 000"></label>'
-    +'<button class="btn" type="submit">Book my free session &rarr;</button>'
-    +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
-    +'</form>';
+  /* GENERIC lead-form handler — each page now owns its own copy/HTML for #agmkLeadForm
+     (moved out of this shared script so every landing can have page-specific copy + destination in its own language). */
   function landingFrom(){var p=location.pathname;
     if(/property-management/.test(p))return"Property Management";
     if(/developments/.test(p))return"Developments";
-    if(/tika/.test(p))return"Tika Villas";
+    if(/\/p\//.test(p))return"Project — "+p.split("/").pop();
     if(/about/.test(p))return"About";
     if(/stays/.test(p))return"Stays";
     return"Home";}
   var f=document.getElementById("agmkLeadForm");
   if(f) f.addEventListener("submit",function(e){
     e.preventDefault();e.stopImmediatePropagation();
+    var esf=location.pathname.indexOf("/es")===0;
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
     var L=landingFrom();
     var btn=f.querySelector('button[type="submit"]');
-    if(btn){btn.disabled=true;btn.innerHTML='Sending&hellip;';}
-    var done=function(){f.innerHTML='<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Thank you. Your request has been sent.</h3><p>An advisor will be in touch within 24 hours.</p></div>';};
+    var sentTxt=btn?btn.getAttribute("data-sending")||(esf?'Enviando&hellip;':'Sending&hellip;'):null;
+    if(btn){btn.disabled=true;btn.innerHTML=sentTxt;}
+    var doneHtml=f.getAttribute("data-thanks")||(esf?'<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Gracias. Tu solicitud ha sido enviada.</h3><p>Un asesor te contactará en las próximas 24 horas.</p></div>':'<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Thank you. Your request has been sent.</h3><p>An advisor will be in touch within 24 hours.</p></div>');
+    var done=function(){f.innerHTML=doneHtml;};
     /* email notification to info@agmakinagroup.com via FormSubmit (async). Just states the source landing. */
     fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).then(function(r){return r.json();}).then(done).catch(done);
   });
