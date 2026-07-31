@@ -243,7 +243,8 @@
   .hero.split .tl{margin-top:20px;text-align:left}
   .hlink{display:inline-block;margin-top:20px;color:var(--orange2);font-weight:700;font-size:15px;font-family:var(--mono)}
   .hlink:hover{text-decoration:underline}
-  .heroform{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px -34px rgba(0,0,0,.85)}
+  .heroform{background:transparent;border:none;border-radius:0;overflow:visible;box-shadow:none;min-height:460px}
+  #ghlSurveyHero{position:relative!important;left:auto!important;top:auto!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
   .heroform .cardhead{padding:18px 24px 0}
   .tlpq.inline .qwrap{min-height:auto;padding:8px 24px 24px}
   .tlpq.inline .qx{display:none}
