@@ -1,25 +1,23 @@
-
 (function(){
-  /* === FICHA DE PRODUCTO ACTIVO (editar al cambiar de villa) === */
-  var PRODUCTO = { tipo:"Villa de 2 habitaciones", precio_desde:"110.000 €", ubicacion:"Uluwatu, Bali" };
-  var CALENDARIO = "/calendario";
-  var GHL_WEBHOOK_URL = ""; /* <-- TECH: pega aqui la URL del Inbound Webhook de GHL. Vacio = solo redirige. */
+  /* === QUIZ /ads — replica EXACTA del survey de GHL, conectado por API directa ===
+     Pasos = los del survey: contacto (nombre+telefono) -> email -> presupuesto -> cuando -> bali.
+     Al enviar: POST /api/lead (serverless, crea/actualiza contacto en GHL con campos + UTMs + tag)
+     y redirige a donde redirigia el survey. El token de GHL vive en el servidor, nunca aqui. */
+  var API = "/api/lead";
+  var REDIRECT = "https://thelastproperty.com/calendario-2"; /* mismo destino que el survey original */
 
   var STEPS = [
-    { key:"contacto", q:"Reserva tu sesión gratuita de inversión en 30s", sub:"", fields:[
-      {name:"nombre", ph:"Nombre y apellidos", type:"text"},
-      {name:"telefono", ph:"WhatsApp / Teléfono", type:"tel"} ]},
-    { key:"objetivo", q:"¿Cuál es tu objetivo principal?", sub:"Elige la opción que mejor te describe", opts:[
-      {em:"💰", t:"Comprar para alquilar (rentabilidad)"},
-      {em:"📈", t:"Comprar para revender"},
-      {em:"🏠", t:"Para uso propio"},
-      {em:"🔄", t:"Una combinación de objetivos"} ]},
-    { key:"presupuesto", q:"¿Cuánto quieres invertir?", sub:"Nuestras villas en "+PRODUCTO.ubicacion+" arrancan desde "+PRODUCTO.precio_desde+".", opts:[
+    { key:"contacto", q:"Reserva tu sesión gratuita de inversión en 30s", fields:[
+      {name:"nombre", ph:"Nombres y apellidos", type:"text"},
+      {name:"telefono", ph:"WhatsApp / Teléfono (con prefijo, ej. +34)", type:"tel"} ]},
+    { key:"emailstep", q:"¿Tu mejor email?", sub:"Usa el mismo email que usarás para reservar tu llamada.", fields:[
+      {name:"email", ph:"Email", type:"email"} ]},
+    { key:"presupuesto", q:"¿Cuánto quieres invertir?", sub:"Nuestras villas en Uluwatu arrancan desde 110.000 €.", opts:[
       {em:"", t:"Menos de 100.000 €"},
-      {em:"", t:"100.000 - 150.000 €"},
-      {em:"", t:"150.000 - 250.000 €"},
+      {em:"", t:"100.000 € - 150.000 €"},
+      {em:"", t:"150.000 € - 250.000 €"},
       {em:"", t:"Más de 250.000 €"} ]},
-    { key:"timing", q:"¿Cuándo quieres invertir?", sub:"Elige la opción que más se ajuste a ti", opts:[
+    { key:"cuando", q:"¿Cuándo quieres invertir?", sub:"Elige la opción que más se ajuste a ti", opts:[
       {em:"⚡", t:"Lo antes posible"},
       {em:"🗓️", t:"En 2-3 meses"},
       {em:"📅", t:"En unos 6 meses"},
@@ -33,23 +31,53 @@
 
   function esc(v){ return (v||"").replace(/"/g,"&quot;"); }
 
+  /* UTMs y atribucion: el survey de GHL las capturaba solo; por API van a mano. Se leen una vez. */
+  function attribution(){
+    var p = new URLSearchParams(location.search), o = {};
+    ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid","ad_id","adset_id","campaign_id"].forEach(function(k){ var v=p.get(k); if(v) o[k]=v; });
+    o.page_url = location.href.split("#")[0];
+    if (document.referrer) o.referrer = document.referrer;
+    return o;
+  }
+  var ATTR = attribution();
+
+  /* Telefono: si son 9 digitos sin prefijo, asumimos España (+34); 00xx -> +xx. */
+  function normPhone(t){
+    t = (t||"").trim().replace(/[\s().-]/g,"");
+    if (/^00\d+/.test(t)) return "+" + t.slice(2);
+    if (/^\+/.test(t)) return t;
+    if (/^\d{9}$/.test(t)) return "+34" + t;
+    return t;
+  }
+
+  function send(answers, estado){
+    var body = {
+      nombre: answers.nombre || "", telefono: normPhone(answers.telefono), email: answers.email || "",
+      presupuesto: answers.presupuesto || "", cuando: answers.cuando || "", bali: answers.bali || "",
+      estado: estado, website: answers.website || "" /* honeypot */
+    };
+    for (var k in ATTR) body[k] = ATTR[k];
+    try {
+      return fetch(API, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(body) });
+    } catch(e){ return Promise.resolve(); }
+  }
+
   function skeleton(isOverlay){
     return '<div class="qwrap">'
       + (isOverlay ? '<div class="qtop"><button class="qx" aria-label="Cerrar">&#10005;</button></div>' : '')
       + '<div class="qBody"></div><div class="qnav qNav"></div>'
       + '<div class="qfoot">Sin compromiso &middot; te escribimos por WhatsApp.</div>'
-      + '<div class="qzurich">Propiedades aseguradas por <img class="zlog" src="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@9353b46b4d6058b808721a80d7215495cd968984/assets/group/zurich.svg" alt="Allianz"></div></div>';
+      + '<div class="qzurich">Propiedades aseguradas por <img class="zlog" src="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@9353b46b4d6058b808721a80d7215495cd968984/assets/group/zurich.svg" alt="Zurich"></div></div>';
   }
 
   function makeQuiz(root, isOverlay){
     root.innerHTML = skeleton(isOverlay);
-    var body=root.querySelector(".qBody"), nav=root.querySelector(".qNav"),
-        fill=root.querySelector(".qFill"), stepEl=root.querySelector(".qstep");
+    var body=root.querySelector(".qBody"), nav=root.querySelector(".qNav");
     var i=0, answers={};
 
     function render(){
       var st=STEPS[i];
-      var h='<h2 class="qq">'+st.q+'</h2>';
+      var h='<h2 class="qq">'+st.q+'</h2>'+(st.sub?'<p class="qsub">'+st.sub+'</p>':'');
       if(st.opts){
         h+='<div class="qopts">';
         for(var k=0;k<st.opts.length;k++){ var o=st.opts[k], sel=(answers[st.key]===o.t)?" sel":"";
@@ -59,6 +87,7 @@
         h+='<div class="qfield">';
         for(var f=0;f<st.fields.length;f++){ var fd=st.fields[f], v=answers[fd.name]||"";
           h+='<input data-n="'+fd.name+'" type="'+fd.type+'" placeholder="'+fd.ph+'" value="'+esc(v)+'">'; }
+        if(i===0){ h+='<input data-n="website" type="text" tabindex="-1" autocomplete="off" style="position:absolute;left:-5000px;height:0;opacity:0" aria-hidden="true">'; }
         h+='</div><p class="qerr"></p>';
       }
       body.innerHTML=h;
@@ -76,20 +105,27 @@
       if(st.opts){ if(!answers[st.key]) return; }
       else if(st.fields){
         var ins=body.querySelectorAll("input"), err=body.querySelector(".qerr");
-        for(var f=0;f<st.fields.length;f++){ answers[st.fields[f].name]=ins[f].value.trim(); }
-        if(!answers.nombre){ err.textContent="Dinos tu nombre."; return; }
-        if((answers.telefono||"").replace(/\D/g,"").length<6){ err.textContent="Revisa tu WhatsApp."; return; }
-        if(!answers._captured && GHL_WEBHOOK_URL){ answers._captured=true; try{ fetch(GHL_WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nombre:answers.nombre,telefono:answers.telefono,producto:PRODUCTO.tipo,estado:"parcial"})}); }catch(e){} }
+        for(var f=0;f<ins.length;f++){ var n=ins[f].getAttribute("data-n"); if(n) answers[n]=ins[f].value.trim(); }
+        if(st.key==="contacto"){
+          if(!answers.nombre){ err.textContent="Dinos tu nombre."; return; }
+          if((answers.telefono||"").replace(/\D/g,"").length<6){ err.textContent="Revisa tu WhatsApp."; return; }
+        }
+        if(st.key==="emailstep"){
+          if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(answers.email||"")){ err.textContent="Revisa tu email."; return; }
+          /* Captura parcial: contacto ya identificable (como hacia el survey con sus pasos guardados). */
+          if(!answers._parcial){ answers._parcial=true; send(answers,"parcial"); }
+        }
       }
       if(i<STEPS.length-1){ i++; render(); } else finish();
     }
     function finish(){
-      var payload={}; for(var k in answers){ if(answers.hasOwnProperty(k) && k.charAt(0)!=="_") payload[k]=answers[k]; }
-      payload.producto=PRODUCTO.tipo; payload.estado="completo";
-      var go=function(){ var p=[]; for(var k2 in payload){ if(payload.hasOwnProperty(k2)) p.push(encodeURIComponent(k2)+"="+encodeURIComponent(payload[k2])); }
-        window.location.href=CALENDARIO+(CALENDARIO.indexOf("?")>-1?"&":"?")+p.join("&"); };
-      if(GHL_WEBHOOK_URL){ try{ fetch(GHL_WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}).then(go,go); }catch(e){ go(); } }
-      else { go(); }
+      var btn=nav.querySelector(".qNext"); if(btn){ btn.disabled=true; btn.textContent="Enviando…"; }
+      var go=function(){
+        var q="full_name="+encodeURIComponent(answers.nombre||"")+"&email="+encodeURIComponent(answers.email||"")+"&phone="+encodeURIComponent(normPhone(answers.telefono));
+        window.location.href=REDIRECT+"?"+q;
+      };
+      send(answers,"completo").then(go,go);
+      setTimeout(go, 4000); /* red de seguridad: nunca dejar al lead colgado */
     }
     render();
     return { reset:function(){ i=0; answers={}; render(); }, closeBtn:root.querySelector(".qx") };
@@ -101,13 +137,15 @@
 
   /* Overlay para los CTAs de mas abajo */
   var overlayRoot=document.getElementById("tlpQuiz");
-  function openOverlay(e){ if(e){ e.preventDefault(); } var ov=makeQuiz(overlayRoot,true);
-    if(ov.closeBtn) ov.closeBtn.onclick=closeOverlay;
-    overlayRoot.classList.add("open"); document.body.style.overflow="hidden"; }
-  function closeOverlay(){ overlayRoot.classList.remove("open"); document.body.style.overflow=""; }
-  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeOverlay(); });
-  var ctas=document.querySelectorAll('a[href*="calendario"], .js-quiz');
-  for(var c=0;c<ctas.length;c++){ ctas[c].addEventListener("click", openOverlay); }
+  if(overlayRoot){
+    var openOverlay=function(e){ if(e){ e.preventDefault(); } var ov=makeQuiz(overlayRoot,true);
+      if(ov.closeBtn) ov.closeBtn.onclick=closeOverlay;
+      overlayRoot.classList.add("open"); document.body.style.overflow="hidden"; };
+    var closeOverlay=function(){ overlayRoot.classList.remove("open"); document.body.style.overflow=""; };
+    document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeOverlay(); });
+    var ctas=document.querySelectorAll('a[href*="calendario"], .js-quiz');
+    for(var c=0;c<ctas.length;c++){ ctas[c].addEventListener("click", openOverlay); }
+  }
 })();
 
 /* ===== Marquee builder (villas reales, jsDelivr) ===== */
