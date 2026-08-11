@@ -4,7 +4,7 @@
      Al enviar: POST /api/lead (serverless, crea/actualiza contacto en GHL con campos + UTMs + tag)
      y redirige a donde redirigia el survey. El token de GHL vive en el servidor, nunca aqui. */
   var API = "/api/lead";
-  var REDIRECT = "https://thelastproperty.com/calendario-2"; /* mismo destino que el survey original */
+  var REDIRECT = "/calendario"; /* calendario propio en agmakinagroup.com */
 
   var STEPS = [
     { key:"contacto", q:"Reserva tu sesión gratuita de inversión en 30s", fields:[
