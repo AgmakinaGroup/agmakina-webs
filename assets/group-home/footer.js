@@ -86,3 +86,26 @@
   document.head.appendChild(s);
   document.body.appendChild(a);
 })();
+/* Video lazy loading (12 ago 2026): los grids de proyectos (developments/portfolio/
+   partners/stays/property-management) tenían TODOS sus videos con autoplay -> se
+   descargaban al abrir la página aunque estuvieran fuera de pantalla (13+ MB medidos
+   en /developments; el autoplay fuerza la descarga aunque diga preload="none").
+   footer.js carga en TODAS las páginas, así que este es el único sitio que hace falta
+   tocar. Cada <video data-lazy> arma su <source data-src> al entrar en viewport. */
+(function(){
+  function arm(vd){
+    if(vd.getAttribute("data-armed")) return;
+    vd.setAttribute("data-armed","1");
+    var s=vd.querySelector("source[data-src]");
+    if(s){ s.src=s.getAttribute("data-src"); s.removeAttribute("data-src"); }
+    vd.load(); vd.autoplay=true;
+    var p=vd.play(); if(p&&p.catch) p.catch(function(){});
+  }
+  var vids=document.querySelectorAll("video[data-lazy]");
+  if(!vids.length) return;
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){
+      if(x.isIntersecting){ arm(x.target); io.unobserve(x.target); }});},{rootMargin:"200px"});
+    vids.forEach(function(v){ io.observe(v); });
+  } else vids.forEach(arm);
+})();
