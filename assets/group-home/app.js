@@ -2,7 +2,9 @@
 (function(){
   var D={"r1": [["Kembali Villas", "Balangan · Uluwatu", "78c38c4933.mp4", "d61cfc9edc.jpg"], ["Santanyi Villas", "Ungasan · Uluwatu", "2a03fe27c8.mp4", "f81f575589.jpg"], ["Bingin Hills Villas", "Uluwatu", "552dcb2bfb.mp4", "2eea55e3d2.jpg"], ["Jepun Sari Hotel", "Uluwatu", "f070867270.mp4", "2d45bc8f41.jpg"], ["Moraira Villas", "Bingin · Uluwatu", "aed6ec5fe1.mp4", "f34a322758.jpg"], ["SDB Villas", "Ungasan · Uluwatu", "68aa2f053c.mp4", "e8390cbc0e.jpg"], ["Malvarrosa Villas", "Bingin · Uluwatu", "ab081eb5c7.mp4", "e55c1f185f.jpg"], ["Arrecife Villas", "Ungasan · Uluwatu", "d50e5f39c6.mp4", "f1cfc05390.jpg"], ["Ribamar Villas", "Bingin · Uluwatu", "3e4e56d8a3.mp4", "59bd5cdb93.jpg"]], "r2": [["Kembali Villas", "Balangan · Uluwatu", "f7621c249b.mp4", "168153014a.jpg"], ["Santanyi Villas", "Ungasan · Uluwatu", "356c667a08.mp4", "1f810f5f2a.jpg"], ["Bingin Hills Villas", "Uluwatu", "ff7543b48d.mp4", "9df850642b.jpg"], ["Jepun Sari Hotel", "Uluwatu", "70dc8f66c4.mp4", "26b3c380ca.jpg"], ["Moraira Villas", "Bingin · Uluwatu", "2d9445116d.mp4", "1bb8e92cf7.jpg"], ["SDB Villas", "Ungasan · Uluwatu", "baca988639.mp4", "430671a472.jpg"], ["Malvarrosa Villas", "Bingin · Uluwatu", "58772b9c21.mp4", "c1c3c65eb2.jpg"], ["Masuka Hotel", "Uluwatu", "d850d4feac.mp4", "100463e3b6.jpg"], ["Elmon Hotel", "Uluwatu", "feb2248b5b.mp4", "b994823c56.jpg"]], "cdn": "https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@main/assets/group-home"};
   var esm=location.pathname.indexOf('/es')===0;
-  function tile(t){return '<div class="tile"><span class="tg op">'+(esm?'En alquiler':'Now renting')+'</span><video autoplay muted loop playsinline preload="none" poster="'+D.cdn+'/'+t[3]+'"><source src="'+D.cdn+'/'+t[2]+'" type="video/mp4"></video><div class="cap">'+t[0]+'<small>'+t[1]+'</small></div></div>';}
+  /* Sin autoplay en el HTML: el navegador lo descarga igual aunque diga preload="none".
+     data-src + data-lazy = el observer de abajo lo arma solo cuando el tile entra en pantalla. */
+  function tile(t){return '<div class="tile"><span class="tg op">'+(esm?'En alquiler':'Now renting')+'</span><video muted loop playsinline preload="none" poster="'+D.cdn+'/'+t[3]+'" data-lazy><source data-src="'+D.cdn+'/'+t[2]+'" type="video/mp4"></video><div class="cap">'+t[0]+'<small>'+t[1]+'</small></div></div>';}
   function fill(sel,arr){var el=document.querySelector(sel);if(!el)return;var h='';for(var i=0;i<arr.length;i++)h+=tile(arr[i]);el.innerHTML=h+h;}
   fill('.marq .r1',D.r1);fill('.marq .r2',D.r2);
 })();
@@ -35,4 +37,27 @@
       els.forEach(function(e){io.observe(e)});
       setTimeout(function(){els.forEach(function(e){e.classList.add('in')})},3500);
     } else els.forEach(function(e){e.classList.add('in')});
+  })();
+
+  /* Video lazy loading (12 ago 2026): los grids de proyectos (developments/portfolio/
+     partners/stays/property-management) y el marquee tenian TODOS sus videos con
+     autoplay -> se descargaban al abrir la pagina aunque estuvieran fuera de pantalla
+     (13+ MB medidos en /developments). Cada <video data-lazy> arma su <source data-src>
+     solo cuando entra en viewport. */
+  (function(){
+    function arm(vd){
+      if(vd.getAttribute('data-armed')) return;
+      vd.setAttribute('data-armed','1');
+      var s=vd.querySelector('source[data-src]');
+      if(s){ s.src=s.getAttribute('data-src'); s.removeAttribute('data-src'); }
+      vd.load(); vd.autoplay=true;
+      var p=vd.play(); if(p&&p.catch) p.catch(function(){});
+    }
+    var vids=document.querySelectorAll('video[data-lazy]');
+    if(!vids.length) return;
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){es.forEach(function(x){
+        if(x.isIntersecting){ arm(x.target); io.unobserve(x.target); }});},{rootMargin:'200px'});
+      vids.forEach(function(v){ io.observe(v); });
+    } else vids.forEach(arm);
   })();
