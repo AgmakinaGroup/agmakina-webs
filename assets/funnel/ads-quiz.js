@@ -131,6 +131,12 @@
     injectCSS();
     root.innerHTML = MARKUP;
     var i = 0, data = {}, busy = false, parcialEnviado = false;
+    /* recuerda las respuestas si recarga o vuelve (se borra al enviar) */
+    var SKEY = "tlpq_v1";
+    try { var sv = JSON.parse(localStorage.getItem(SKEY) || "null");
+      if (sv && sv.data){ data = sv.data; i = Math.min(sv.i || 0, STEPS.length - 1); parcialEnviado = !!sv.pe; } } catch(e){}
+    function saveState(){ try { localStorage.setItem(SKEY, JSON.stringify({ i:i, data:data, pe:parcialEnviado })); } catch(e){} }
+    function clearState(){ try { localStorage.removeItem(SKEY); } catch(e){} }
     var card  = root.querySelector(".aaq"),
         body  = card.querySelector(".qbody"),
         nav   = card.querySelector(".qnav"),
@@ -144,7 +150,7 @@
     function render(){
       var s = STEPS[i];
       err("");
-      lbl.textContent = "Paso " + (i+1) + " de " + STEPS.length;
+      lbl.textContent = "";
       bar.style.width = Math.round((i / STEPS.length) * 100 + (100/STEPS.length)) + "%";
 
       var h = '<h3 class="qq">' + s.q + '</h3>';
@@ -181,6 +187,7 @@
           data[STEPS[i].key] = o.getAttribute("data-v");
           Array.prototype.forEach.call(body.querySelectorAll(".qopt"), function(x){ x.classList.remove("sel"); });
           o.classList.add("sel");
+          saveState();
           setTimeout(advance, 180);
         };
       });
@@ -209,12 +216,13 @@
       if (s.key === "contacto" && !parcialEnviado && !(hp && hp.value)){
         parcialEnviado = true; send(payloadFrom(data, "parcial", ""));
       }
-      if (i < STEPS.length - 1){ i++; render(); return; }
+      if (i < STEPS.length - 1){ i++; saveState(); render(); return; }
       submit();
     }
 
     function submit(){
       busy = true;
+      clearState();
       bar.style.width = "100%";
       var esSpam = !!(hp && hp.value);
       var payload = payloadFrom(data, "completo", hp ? hp.value : "");
@@ -268,7 +276,7 @@
 
 /* ===== Marquee builder (villas reales, jsDelivr) ===== */
 (function(){var row=document.getElementById("mqrow"); if(!row) return;
-var GH="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@main/assets/group-home/";
+var GH="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@a90818431acb016c08c396d60a6d30bfa868d4da/assets/group-home/";
 var V=[["Kembali Villas","Balangan · Uluwatu","d61cfc9edc.jpg","78c38c4933.mp4"],
 ["Santanyi Villas","Ungasan · Uluwatu","f81f575589.jpg","2a03fe27c8.mp4"],
 ["Bingin Hills Villas","Uluwatu","2eea55e3d2.jpg","552dcb2bfb.mp4"],
@@ -278,6 +286,16 @@ var V=[["Kembali Villas","Balangan · Uluwatu","d61cfc9edc.jpg","78c38c4933.mp4"
 ["SDB Villas","Ungasan · Uluwatu","e8390cbc0e.jpg","68aa2f053c.mp4"],
 ["Malvarrosa Villas","Bingin · Uluwatu","e55c1f185f.jpg","ab081eb5c7.mp4"],
 ["Arrecife Villas","Ungasan · Uluwatu","f1cfc05390.jpg","d50e5f39c6.mp4"]];
+/* Los videos NO se descargan con la pagina (el autoplay anula el preload="none"):
+   se pintan los posters y cada video carga solo cuando su tile entra en pantalla. */
 var h=""; for(var r=0;r<2;r++){for(var i=0;i<V.length;i++){var v=V[i];
-h+='<div class="tile"><span class="tg op">En alquiler</span><video autoplay muted loop playsinline preload="none" poster="'+GH+v[2]+'"><source src="'+GH+v[3]+'" type="video/mp4"></video><div class="cap">'+v[0]+'<small>'+v[1]+'</small></div></div>';}}
-row.innerHTML=h;})();
+h+='<div class="tile"><span class="tg op">En alquiler</span><video muted loop playsinline preload="none" poster="'+GH+v[2]+'" data-src="'+GH+v[3]+'"></video><div class="cap">'+v[0]+'<small>'+v[1]+'</small></div></div>';}}
+row.innerHTML=h;
+function arm(vd){ if(vd.src) return; vd.src=vd.getAttribute("data-src"); vd.autoplay=true;
+  var p=vd.play(); if(p&&p.catch) p.catch(function(){}); }
+var vids=row.querySelectorAll("video[data-src]");
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){
+    if(x.isIntersecting){ arm(x.target); io.unobserve(x.target); }});},{rootMargin:"200px"});
+  Array.prototype.forEach.call(vids,function(vd){ io.observe(vd); });
+} else Array.prototype.forEach.call(vids,arm);})();
