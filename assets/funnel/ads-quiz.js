@@ -288,8 +288,9 @@ var V=[["Kembali Villas","Balangan · Uluwatu","d61cfc9edc.jpg","78c38c4933.mp4"
 ["Arrecife Villas","Ungasan · Uluwatu","f1cfc05390.jpg","d50e5f39c6.mp4"]];
 /* Los videos NO se descargan con la pagina (el autoplay anula el preload="none"):
    se pintan los posters y cada video carga solo cuando su tile entra en pantalla. */
+var lbl=(document.documentElement.lang==="en")?"For rent":"En alquiler";
 var h=""; for(var r=0;r<2;r++){for(var i=0;i<V.length;i++){var v=V[i];
-h+='<div class="tile"><span class="tg op">En alquiler</span><video muted loop playsinline preload="none" poster="'+GH+v[2]+'" data-src="'+GH+v[3]+'"></video><div class="cap">'+v[0]+'<small>'+v[1]+'</small></div></div>';}}
+h+='<div class="tile"><span class="tg op">'+lbl+'</span><video muted loop playsinline preload="none" poster="'+GH+v[2]+'" data-src="'+GH+v[3]+'"></video><div class="cap">'+v[0]+'<small>'+v[1]+'</small></div></div>';}}
 row.innerHTML=h;
 function arm(vd){ if(vd.src) return; vd.src=vd.getAttribute("data-src"); vd.autoplay=true;
   var p=vd.play(); if(p&&p.catch) p.catch(function(){}); }
