@@ -70,16 +70,16 @@
             "M\u00e1s de 250.000\u20ac"] },
     { key:"cuando", q:"\u00bfCu\u00e1ndo quieres invertir?",
       sub:"Elige la opci\u00f3n que m\u00e1s se ajuste a ti.",
-      opts:["\u26a1 Lo antes posible",
-            "\ud83d\uddd3\ufe0f En 2-3 meses",
-            "\ud83d\udcc5 En unos 6 meses",
-            "\ud83d\udc40 Solo estoy ojeando"] },
+      opts:["Lo antes posible",
+            "En 2-3 meses",
+            "En unos 6 meses",
+            "Solo estoy ojeando"] },
     { key:"bali", q:"\u00bfHas estado en Bali?",
       sub:"Sin problema si a\u00fan no: te lo ense\u00f1amos todo en la llamada.",
-      opts:["\ud83c\udf34 S\u00ed, lo conozco bien",
-            "\u2708\ufe0f S\u00ed, de visita",
-            "\ud83d\udca1 No, pero me interesa mucho",
-            "\ud83d\ude42 No"] }
+      opts:["S\u00ed, lo conozco bien",
+            "S\u00ed, de visita",
+            "No, pero me interesa mucho",
+            "No"] }
   ];
 
   function utms(){
