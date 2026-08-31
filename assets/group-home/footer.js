@@ -45,8 +45,20 @@
     var btn=f.querySelector('button[type="submit"]');
     if(btn){btn.disabled=true;btn.innerHTML='Sending&hellip;';}
     var done=function(){f.innerHTML='<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Thank you. Your request has been sent.</h3><p>An advisor will be in touch within 24 hours.</p></div>';};
-    /* email notification to info@agmakinagroup.com via FormSubmit (async). Just states the source landing. */
-    fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).then(function(r){return r.json();}).then(done).catch(done);
+    /* El lead entra en GoHighLevel (pipeline "Villas Bali", tag "agmakina lead") por /api/agmakina-lead.
+       El endpoint tambien manda el aviso por email. Si el endpoint fallara, se cae a FormSubmit
+       para no perder el lead. */
+    var u=(function(){var p=new URLSearchParams(location.search),o={};
+      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"].forEach(function(k){if(p.get(k))o[k]=p.get(k);});
+      o.page_url=location.href;o.referrer=document.referrer||"";return o;})();
+    var body={nombre:g('nombre'),email:g('email'),telefono:g('telefono'),page:L};
+    Object.keys(u).forEach(function(k){body[k]=u[k];});
+    fetch("/api/agmakina-lead",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(body)})
+      .then(function(r){ if(!r.ok) throw new Error("api"); return r.json(); })
+      .then(done)
+      .catch(function(){
+        fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead (fallback) — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).then(done).catch(done);
+      });
   });
 })();
 /* Responsive UX fixes — injected globally: widows, one-line stat header, mobile topbar/header/buttons. */
