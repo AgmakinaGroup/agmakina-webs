@@ -48,7 +48,7 @@
   var MARKUP = '<div class="aaq"><div class="qwrap">'
     + '<div class="qhead"><span class="qstep"></span><span class="qsecure">&#128274; Datos protegidos</span></div>'
     + '<div class="qbar"><i></i></div>'
-    + '<input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'
+    + '<input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none!important">'
     + '<div class="qbody"></div>'
     + '<div class="qerr"></div><div class="qnav"></div>'
     + '<div class="qfoot">Sin compromiso &middot; 100% confidencial &middot; Al enviar aceptas la <a href="/es/privacidad">pol\u00edtica de privacidad</a>.</div>'
