@@ -42,6 +42,21 @@ function __agmkL(p){return __agmkES?"/es"+p:p;}
     if(/about/.test(p))return"About";
     if(/stays/.test(p))return"Stays";
     return"Home";}
+  /* La etiqueta de arriba alimenta los tags web-* (los usan los workflows de GHL: no cambiarla).
+     Esta otra dice la pagina exacta, para el aviso a ventas y el "source" del contacto. */
+  function pageDetail(){var p=location.pathname.replace(/\/+$/,"")||"/",m,
+      nice=function(s){s=decodeURIComponent(s).replace(/[-_]+/g," ");return s.charAt(0).toUpperCase()+s.slice(1);},
+      es=/^\/es(\/|$)/.test(p);
+    if(m=p.match(/\/p\/([^\/]+)/))return(es?"Ficha ":"Listing ")+nice(m[1]);
+    if(m=p.match(/\/(?:guides|guias)\/([^\/]+)/))return(es?"Guía ":"Guide ")+nice(m[1]);
+    if(/\/(?:guides|guias)$/.test(p))return es?"Guías":"Guides";
+    if(m=p.match(/\/zonas\/([^\/]+)/))return(es?"Zona ":"Area ")+nice(m[1]);
+    if(/\/zonas$/.test(p))return es?"Zonas":"Areas";
+    if(/invest-in-bali|invertir-en-bali/.test(p))return es?"Invertir en Bali":"Invest in Bali";
+    if(/\/(?:resources|recursos)$/.test(p))return es?"Recursos":"Resources";
+    if(/\/portfolio$/.test(p))return "Portfolio";
+    if(/\/partners$/.test(p))return "Partners";
+    return landingFrom();}
   var f=document.getElementById("agmkLeadForm");
   if(f) f.addEventListener("submit",function(e){
     e.preventDefault();e.stopImmediatePropagation();
@@ -56,13 +71,13 @@ function __agmkL(p){return __agmkES?"/es"+p:p;}
     var u=(function(){var p=new URLSearchParams(location.search),o={};
       ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"].forEach(function(k){if(p.get(k))o[k]=p.get(k);});
       o.page_url=location.href;o.referrer=document.referrer||"";return o;})();
-    var body={nombre:g('nombre'),email:g('email'),telefono:g('telefono'),page:L};
+    var body={nombre:g('nombre'),email:g('email'),telefono:g('telefono'),page:L,page_detail:pageDetail(),lang:(document.documentElement.lang||"").slice(0,2)};
     Object.keys(u).forEach(function(k){body[k]=u[k];});
     fetch("/api/agmakina-lead",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(body)})
       .then(function(r){ if(!r.ok) throw new Error("api"); return r.json(); })
       .then(done)
       .catch(function(){
-        fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":L,_subject:"New lead (fallback) — "+L+" page · Agmakina",_template:"table",_captcha:"false"})}).then(done).catch(done);
+        fetch("https://formsubmit.co/ajax/info@agmakinagroup.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Name:g('nombre'),Email:g('email'),WhatsApp:g('telefono'),"From page":pageDetail(),_subject:"New lead (fallback) — "+pageDetail()+" · Agmakina",_template:"table",_captcha:"false"})}).then(done).catch(done);
       });
   });
 })();
