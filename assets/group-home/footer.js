@@ -1,3 +1,8 @@
+/* Idioma: la pagina manda. Antes este archivo solo sabia ingles y las paginas
+   /es/ acababan con el formulario y los enlaces del pie en ingles (sep 2026). */
+var __agmkES=(document.documentElement.lang||"").slice(0,2)==="es";
+function __agmkT(en,es){return __agmkES?es:en;}
+function __agmkL(p){return __agmkES?"/es"+p:p;}
 /* Agmakina Group — SHARED closing section (final CTA: copy left, form right).
    Single source of truth. Edit here + purge jsDelivr @main → updates on every landing.
    Mount point on each page: <section class="final2" id="reservar"><div class="wrap f2" id="agmk-final"></div></section> */
@@ -8,27 +13,27 @@
   var SOC=[
     ["Instagram","https://www.instagram.com/agmakinagroup/",'<path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.27.06-1.65.07-4.9.07s-3.63 0-4.9-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.17-.42-.37-1.06-.42-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.14 0-3.5 0-4.74.07-.9.04-1.38.19-1.7.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.8-.32 1.7C3.6 8.5 3.6 8.86 3.6 12s0 3.5.07 4.74c.04.9.19 1.38.32 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.8.28 1.7.32 1.24.06 1.6.07 4.74.07s3.5 0 4.74-.07c.9-.04 1.38-.19 1.7-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.8.32-1.7.06-1.24.07-1.6.07-4.74s0-3.5-.07-4.74c-.04-.9-.19-1.38-.32-1.7-.17-.43-.37-.74-.69-1.06-.32-.32-.63-.52-1.06-.69-.32-.13-.8-.28-1.7-.32C15.5 4 15.14 4 12 4zm0 3.06A4.94 4.94 0 1 1 7.06 12 4.94 4.94 0 0 1 12 7.06zm0 8.14A3.2 3.2 0 1 0 8.8 12 3.2 3.2 0 0 0 12 15.2zm6.3-8.34a1.15 1.15 0 1 1-1.15-1.15 1.15 1.15 0 0 1 1.15 1.15z"/>'], ["LinkedIn","https://www.linkedin.com/company/agmakinagroup/",'<path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>'], ["Facebook","https://www.facebook.com/agmakinagroup/",'<path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/>'], ["TikTok","https://www.tiktok.com/@agmakinagroup",'<path d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.3v13.4a2.6 2.6 0 1 1-2.6-2.6c.27 0 .53.04.78.12v-3.37a5.95 5.95 0 0 0-.78-.05A5.98 5.98 0 1 0 15.63 14V8.14a7.55 7.55 0 0 0 4.37 1.4V6.24a4.28 4.28 0 0 1-3.4-.42z"/>'], ["YouTube","https://www.youtube.com/@AgmakinaGroup",'<path d="M23.5 6.2a3 3 0 0 0-2.1-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.4.52A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.13c1.9.52 9.4.52 9.4.52s7.5 0 9.4-.52a3 3 0 0 0 2.1-2.13A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/>'] ]; var socHTML=function(cls,sz){return '<div class="'+cls+'">'+SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'" fill="currentColor">'+s[2]+'</svg></a>';}).join('')+'</div>';};
   /* footer links + social icons in the bottom copyright bar (all pages) */
-  (function(){var fw=document.querySelector("footer .wrap");if(!fw)return;var lg=fw.querySelector(".legal");if(lg&&!fw.querySelector(".agmk-foot-links")){lg.insertAdjacentHTML("afterend",'<nav class="agmk-foot-links"><a href="/portfolio">Portfolio</a><a href="/partners">Partners</a></nav>');}if(!fw.querySelector(".agmk-foot-social")){fw.insertAdjacentHTML("beforeend",socHTML("agmk-foot-social",18));}})();
+  (function(){var fw=document.querySelector("footer .wrap");if(!fw)return;var lg=fw.querySelector(".legal");if(lg&&!fw.querySelector(".agmk-foot-links")){lg.insertAdjacentHTML("afterend",'<nav class="agmk-foot-links"><a href="'+__agmkL("/portfolio")+'">Portfolio</a><a href="'+__agmkL("/partners")+'">Partners</a></nav>');}if(!fw.querySelector(".agmk-foot-social")){fw.insertAdjacentHTML("beforeend",socHTML("agmk-foot-social",18));}})();
   /* Stays hero search -> real availability on the Cloudbeds group booking engine (all properties) */
   (function(){var sf=document.getElementById("searchForm");if(!sf||!/stays/.test(location.pathname))return;var nf=sf.cloneNode(true);sf.parentNode.replaceChild(nf,sf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var d=function(v){if(!v)return"";var p=v.split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:"";};window.open("https://agmakina.cloudbeds.com/#/?check_in="+d(f.ci.value)+"&check_out="+d(f.co.value)+"&page=1","_blank");});})();
   /* Stays closing: swap the basic Name/Email form for the same date+guests search (-> WhatsApp) */
-  (function(){var bf=document.getElementById("bookForm");if(!bf||!/stays/.test(location.pathname)||!bf.querySelector('[name="email"]'))return;var nf=document.createElement("form");nf.className=bf.className;nf.innerHTML='<label>Check-in<input type="date" name="ci" required></label><label>Check-out<input type="date" name="co" required></label><label>Guests<select name="g"><option>1 guest</option><option selected>2 guests</option><option>3 guests</option><option>4 guests</option><option>5+ guests</option></select></label><button class="btn" type="submit">Check availability on WhatsApp &rarr;</button><p class="note">Reply within 24h &middot; Best rate direct</p>';bf.replaceWith(nf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var t="Hi Agmakina, I would like to book a stay in Bali.%0ACheck-in: "+f.ci.value+"%0ACheck-out: "+f.co.value+"%0AGuests: "+encodeURIComponent(f.g.value);window.open("https://wa.me/"+WA+"?text="+t,"_blank");});})();
+  (function(){var bf=document.getElementById("bookForm");if(!bf||!/stays/.test(location.pathname)||!bf.querySelector('[name="email"]'))return;var nf=document.createElement("form");nf.className=bf.className;nf.innerHTML='<label>'+__agmkT("Check-in","Llegada")+'<input type="date" name="ci" required></label><label>'+__agmkT("Check-out","Salida")+'<input type="date" name="co" required></label><label>'+__agmkT("Guests","Huéspedes")+'<select name="g">'+(__agmkES?'<option>1 huésped</option><option selected>2 huéspedes</option><option>3 huéspedes</option><option>4 huéspedes</option><option>5+ huéspedes</option>':'<option>1 guest</option><option selected>2 guests</option><option>3 guests</option><option>4 guests</option><option>5+ guests</option>')+'</select></label><button class="btn" type="submit">'+__agmkT("Check availability on WhatsApp","Ver disponibilidad por WhatsApp")+' &rarr;</button><p class="note">'+__agmkT("Reply within 24h &middot; Best rate direct","Respuesta en 24 h &middot; Mejor precio reservando directo")+'</p>';bf.replaceWith(nf);nf.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var t=__agmkT("Hi Agmakina, I would like to book a stay in Bali.%0ACheck-in: ","Hola Agmakina, me gustaría reservar una estancia en Bali.%0ALlegada: ")+f.ci.value+__agmkT("%0ACheck-out: ","%0ASalida: ")+f.co.value+__agmkT("%0AGuests: ","%0AHuéspedes: ")+encodeURIComponent(f.g.value);window.open("https://wa.me/"+WA+"?text="+t,"_blank");});})();
   /* open the native date picker when clicking anywhere in a date field (not just the icon) */
   (function(){[].forEach.call(document.querySelectorAll('input[type="date"]'),function(el){el.style.cursor="pointer";el.addEventListener("click",function(){try{this.showPicker();}catch(e){}});});})();
   var m=document.getElementById("agmk-final");
   if(!m) return;
   m.innerHTML=''
     +'<div class="f2-copy reveal in">'
-    +'<span class="ey">Free investment session</span>'
-    +'<h2>Start your Bali investment with confidence.</h2>'
-    +'<p>We match you with the right investment, built for long-term value and performance. Leave your details and an advisor will be in touch personally.</p>'
+    +'<span class="ey">'+__agmkT("Free investment session","Sesión de inversión gratuita")+'</span>'
+    +'<h2>'+__agmkT("Start your Bali investment with confidence.","Invierte en Bali con total confianza.")+'</h2>'
+    +'<p>'+__agmkT("We match you with the right investment, built for long-term value and performance. Leave your details and an advisor will be in touch personally.","Te ayudamos a elegir la inversión que encaja contigo, pensada para rendir y revalorizarse a largo plazo. Déjanos tus datos y un asesor te contactará personalmente.")+'</p>'
     +'</div>'
     +'<form class="lform2 reveal in" id="agmkLeadForm">'
-    +'<label>Name<input name="nombre" required placeholder="Full name"></label>'
-    +'<label>Email<input name="email" type="email" required placeholder="you@email.com"></label>'
+    +'<label>'+__agmkT("Name","Nombre")+'<input name="nombre" required placeholder="'+__agmkT("Full name","Nombre y apellidos")+'"></label>'
+    +'<label>Email<input name="email" type="email" required placeholder="'+__agmkT("you@email.com","tu@email.com")+'"></label>'
     +'<label>WhatsApp<input name="telefono" type="tel" required placeholder="+34 600 000 000"></label>'
-    +'<button class="btn" type="submit">Book my free session &rarr;</button>'
-    +'<p class="f2-note">Reply within 24h &middot; No commitment</p>'
+    +'<button class="btn" type="submit">'+__agmkT("Book my free session","Reservar mi sesión gratis")+' &rarr;</button>'
+    +'<p class="f2-note">'+__agmkT("Reply within 24h &middot; No commitment","Respuesta en 24 h &middot; Sin compromiso")+'</p>'
     +'</form>';
   function landingFrom(){var p=location.pathname;
     if(/property-management/.test(p))return"Property Management";
@@ -43,8 +48,8 @@
     var g=function(n){var el=f.querySelector('[name="'+n+'"]');return el?el.value.trim():'';};
     var L=landingFrom();
     var btn=f.querySelector('button[type="submit"]');
-    if(btn){btn.disabled=true;btn.innerHTML='Sending&hellip;';}
-    var done=function(){f.innerHTML='<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>Thank you. Your request has been sent.</h3><p>An advisor will be in touch within 24 hours.</p></div>';};
+    if(btn){btn.disabled=true;btn.innerHTML=__agmkT('Sending&hellip;','Enviando&hellip;');}
+    var done=function(){f.innerHTML='<div class="f2-sent"><div class="f2-sent-ic">&#10003;</div><h3>'+__agmkT('Thank you. Your request has been sent.','Gracias. Hemos recibido tu solicitud.')+'</h3><p>'+__agmkT('An advisor will be in touch within 24 hours.','Un asesor te contactará en menos de 24 horas.')+'</p></div>';};
     /* El lead entra en GoHighLevel (pipeline "Villas Bali", tag "agmakina lead") por /api/agmakina-lead.
        El endpoint tambien manda el aviso por email. Si el endpoint fallara, se cae a FormSubmit
        para no perder el lead. */
