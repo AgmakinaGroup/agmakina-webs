@@ -276,7 +276,7 @@
 
 /* ===== Marquee builder (villas reales, jsDelivr) ===== */
 (function(){var row=document.getElementById("mqrow"); if(!row) return;
-var GH="https://cdn.jsdelivr.net/gh/AgmakinaGroup/agmakina-webs@a90818431acb016c08c396d60a6d30bfa868d4da/assets/group-home/";
+var GH="https://agmakina-assets.vercel.app/assets/group-home/";
 var V=[["Kembali Villas","Balangan · Uluwatu","d61cfc9edc.jpg","78c38c4933.mp4"],
 ["Santanyi Villas","Ungasan · Uluwatu","f81f575589.jpg","2a03fe27c8.mp4"],
 ["Bingin Hills Villas","Uluwatu","2eea55e3d2.jpg","552dcb2bfb.mp4"],
